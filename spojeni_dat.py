@@ -72,13 +72,15 @@ else:
     # Výpočet cílové proměnné Y_OK:
     # Y_OK = 1 → geometrická poloha je stabilní (obě odchylky v toleranci)
     # Y_OK = 0 → riziková (alespoň jedna odchylka mimo toleranci)
-    TOL = 5.0
+    TOL_Z = 5.0   # tolerance zdvihu [mm]
+    TOL_S = 10.0  # tolerance posunu [mm]
+    
     z_col, s_col = "zdvih [mm]_G3", "posun [mm]_G3"
-
+    
     if z_col in final_df.columns and s_col in final_df.columns:
         final_df["Y_OK"] = (
-            (final_df[z_col].abs() <= TOL) &
-            (final_df[s_col].abs() <= TOL)
+            (final_df[z_col].abs() <= TOL_Z) &
+            (final_df[s_col].abs() <= TOL_S)
         ).astype(int)
     else:
         final_df["Y_OK"] = 0
